@@ -1,0 +1,22 @@
+{
+  "files.exclude": {
+    "**/.dart_tool": true,
+    "**/.pub": true,
+    "**/.pub-cache": true,
+    "**/build": true,
+    "**/test": true,
+    "flutter/packages": true
+  },
+  "search.exclude": {
+    "**/.dart_tool": true,
+    "**/.pub": true,
+    "**/build": true,
+    "**/test": true
+  },
+  "dart.analysisExcludedFolders": [
+    ".dart_tool",
+    ".pub-cache",
+    "build",
+    "flutter/packages"
+  ]
+}
