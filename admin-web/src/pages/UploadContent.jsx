@@ -4,8 +4,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-// ใช้ .env: VITE_API_BASE_URL (default = http://localhost:5000/api)
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+// ใช้ .env: VITE_API_BASE_URL (default = Render backend)
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  'https://digital-signage-project.onrender.com/api';
 
 const initialFileForm = {
   title: '',
