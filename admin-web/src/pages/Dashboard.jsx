@@ -7,8 +7,8 @@ import axios from 'axios';
 import ContentTable from '../components/ContentTable.jsx';
 
 
-// เปลี่ยน BASE_URL ถ้า backend อยู่ที่ server อื่น
-const BASE_URL = 'http://localhost:5000/api';
+// ใช้ .env: VITE_API_BASE_URL (default = http://localhost:5000/api)
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 
 const Dashboard = () => {
