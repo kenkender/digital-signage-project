@@ -1,12 +1,32 @@
-node_modules/
-dist/
-build/
+# Node backend
+backend/node_modules/
+backend/uploads/
+backend/.env
+backend/build/
+backend/dist/
+
+# React admin web
+admin-web/node_modules/
+admin-web/build/
+admin-web/dist/
+admin-web/.env
+
+# Flutter player app
+player-app/build/
+player-app/.dart_tool/
+player-app/.packages
+player-app/linux/
+player-app/windows/
+player-app/macos/
+player-app/ios/
+player-app/android/
+player-app/web/
+player-app/test/
+player-app/.flutter-plugins
+player-app/.flutter-plugins-dependencies
+
+# System files
 .DS_Store
 *.log
 *.tmp
-.env
-uploads/
-player-app/windows/
-player-app/build/
-player-app/linux/
-player-app/macos/
+Thumbs.db
