@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+.DS_Store
+*.log
+*.tmp
+.env
+uploads/
+player-app/windows/
+player-app/build/
+player-app/linux/
+player-app/macos/
