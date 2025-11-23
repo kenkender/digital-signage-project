@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 const multer = require("multer");
 const mongoose = require("mongoose");
 const Content = require("../models/Content");
@@ -6,9 +7,15 @@ const Content = require("../models/Content");
 // ใช้สำหรับแจ้ง player ให้รีเฟรชเพลย์ลิสต์ (in-memory)
 let publishVersion = Date.now();
 
+// สร้างโฟลเดอร์ uploads ถ้ายังไม่มี (ป้องกัน error 500 บน server ใหม่)
+const uploadDir = path.join(__dirname, "..", "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 // === Multer config === //
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
+  destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => {
     const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, unique + path.extname(file.originalname));
