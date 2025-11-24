@@ -9,12 +9,13 @@ const {
   triggerPublish,
   getPublishVersion
 } = require("../controllers/contentController");
+const { requireAuth } = require("../middleware/auth");
 
 // ดึงทั้งหมด
 router.get("/content", getAllContents);
 
 // อัปโหลดรูป/วิดีโอ (จัดการ error จาก multer เพื่อส่งข้อความชัดเจน)
-router.post("/content/upload", (req, res, next) => {
+router.post("/content/upload", requireAuth, (req, res, next) => {
   uploadFileMiddleware.single("file")(req, res, (err) => {
     if (err) {
       if (err.code === "LIMIT_FILE_SIZE") {
@@ -29,13 +30,13 @@ router.post("/content/upload", (req, res, next) => {
 });
 
 // ลบ content
-router.delete("/content/:id", deleteContent);
+router.delete("/content/:id", requireAuth, deleteContent);
 
 // อัปเดต content (ใช้สำหรับเปลี่ยนลำดับ/ชื่อ/เวลา)
-router.put("/content/:id", updateContent);
+router.put("/content/:id", requireAuth, updateContent);
 
 // แจ้ง player ให้รีเฟรช
-router.post("/publish", triggerPublish);
+router.post("/publish", requireAuth, triggerPublish);
 router.get("/publish/version", getPublishVersion);
 
 module.exports = router;

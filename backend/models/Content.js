@@ -11,7 +11,8 @@ const ContentSchema = new mongoose.Schema(
     url: { type: String, required: true },
     durationSeconds: { type: Number, default: 10 },
     playlistName: { type: String, default: "default" },
-    playlistOrder: { type: Number, default: 0 }
+    playlistOrder: { type: Number, default: 0 },
+    tenantId: { type: String, required: true }
   },
   { timestamps: true }
 );
