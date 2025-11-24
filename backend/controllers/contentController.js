@@ -63,7 +63,11 @@ exports.getAllContents = async (_req, res) => {
     const items = await Content.find().sort({ playlistOrder: 1 });
     res.json(items);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching contents" });
+    console.error("Error fetching contents:", err);
+    res.status(500).json({
+      message: "Error fetching contents",
+      detail: err?.message || "unknown",
+    });
   }
 };
 

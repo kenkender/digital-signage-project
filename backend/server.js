@@ -17,6 +17,10 @@ app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+app.get("/", (_req, res) => {
+  res.json({ status: "ok", api: "/api", mongo: !!MONGO_URI });
+});
+
 const routes = require("./routes/contentRoutes");
 const controlRoutes = require("./routes/controlRoutes");
 app.use("/api", routes);
