@@ -5,7 +5,7 @@ const BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
   'https://digital-signage-project.onrender.com/api';
 
-const ControlDashboard = () => {
+const ControlDashboard = ({ token, tenantId }) => {
   const [status, setStatus] = useState('');
   const [error, setError] = useState('');
   const [jumpIndex, setJumpIndex] = useState('');
@@ -17,7 +17,11 @@ const ControlDashboard = () => {
     setError('');
     setSending(true);
     try {
-      const res = await axios.post(`${BASE_URL}/control`, { type, payload });
+      const res = await axios.post(
+        `${BASE_URL}/control`,
+        { type, payload },
+        { headers: token ? { Authorization: `Bearer ${token}` } : {} }
+      );
       setStatus(`ส่งคำสั่ง ${type} สำเร็จ #${res.data?.version || ''}`);
     } catch (err) {
       console.error(err);

@@ -18,7 +18,7 @@ const initialFileForm = {
   playlistOrder: 0
 };
 
-const UploadContent = () => {
+const UploadContent = ({ token, tenantId }) => {
   const [fileForm, setFileForm] = useState(initialFileForm);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -90,10 +90,14 @@ const UploadContent = () => {
       formData.append('durationSeconds', String(fileForm.durationSeconds));
       formData.append('playlistName', fileForm.playlistName);
       formData.append('playlistOrder', String(fileForm.playlistOrder));
+      formData.append('tenantId', tenantId || '');
       formData.append('file', fileForm.file);
 
       const res = await axios.post(`${BASE_URL}/content/upload`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        }
       });
 
       setMessage(res.data?.message || 'Upload success');
@@ -113,7 +117,13 @@ const UploadContent = () => {
     setPushMessage('');
     setPushing(true);
     try {
-      const res = await axios.post(`${BASE_URL}/publish`);
+      const res = await axios.post(
+        `${BASE_URL}/publish?tenantId=${encodeURIComponent(tenantId || '')}`,
+        {},
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {}
+        }
+      );
       setPushMessage(res.data?.message || 'ส่งขึ้นอุปกรณ์เรียบร้อย');
     } catch (err) {
       console.error(err);

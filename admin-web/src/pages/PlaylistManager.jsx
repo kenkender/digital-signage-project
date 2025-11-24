@@ -5,7 +5,7 @@ const BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
   "https://digital-signage-project.onrender.com/api";
 
-function PlaylistManager() {
+function PlaylistManager({ token, tenantId }) {
   const [playlistName, setPlaylistName] = useState("default");
   const [items, setItems] = useState([]);
   const [message, setMessage] = useState("");
@@ -16,7 +16,12 @@ function PlaylistManager() {
   const fetchContents = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${BASE_URL}/content`);
+      const res = await fetch(
+        `${BASE_URL}/content?tenantId=${encodeURIComponent(tenantId || "")}`,
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        }
+      );
       const data = await res.json();
       setItems(
         (data || []).sort(
@@ -37,9 +42,15 @@ function PlaylistManager() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`${BASE_URL}/content/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${BASE_URL}/content/${id}?tenantId=${encodeURIComponent(
+          tenantId || ""
+        )}`,
+        {
+          method: "DELETE",
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        }
+      );
 
       const result = await res.json();
 
@@ -67,9 +78,15 @@ function PlaylistManager() {
     setSavingId(id);
     setMessage("");
     try {
-      await axios.put(`${BASE_URL}/content/${id}`, {
-        playlistOrder: Number(order) || 0,
-      });
+      await axios.put(
+        `${BASE_URL}/content/${id}?tenantId=${encodeURIComponent(
+          tenantId || ""
+        )}`,
+        {
+          playlistOrder: Number(order) || 0,
+        },
+        { headers: token ? { Authorization: `Bearer ${token}` } : {} }
+      );
       setMessage("อัปเดตลำดับสำเร็จ");
       fetchContents();
     } catch (err) {
@@ -86,9 +103,15 @@ function PlaylistManager() {
     try {
       await Promise.all(
         items.map((item) =>
-          axios.put(`${BASE_URL}/content/${item._id}`, {
-            playlistOrder: Number(item.playlistOrder) || 0,
-          })
+          axios.put(
+            `${BASE_URL}/content/${item._id}?tenantId=${encodeURIComponent(
+              tenantId || ""
+            )}`,
+            {
+              playlistOrder: Number(item.playlistOrder) || 0,
+            },
+            { headers: token ? { Authorization: `Bearer ${token}` } : {} }
+          )
         )
       );
       setMessage("บันทึกลำดับทั้งหมดสำเร็จ");
